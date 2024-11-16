@@ -110,7 +110,16 @@ class _LoginPageState extends State<LoginPage> {
                       padding: EdgeInsets.only(top: 10),
                       child: ElevatedButton(
                           onPressed: () async {
-                            await AuthService().iniciarSesionGoogle();
+                            var user =
+                                await AuthService().iniciarSesionGoogle();
+                            if (user != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePage(),
+                                ),
+                              );
+                            }
                           },
                           child: Text("Iniciar sesión con cuenta google")),
                     ),
