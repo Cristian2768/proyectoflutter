@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterproyecto/pages/colores.dart';
 import 'package:flutterproyecto/pages/home_page.dart';
+import 'package:flutterproyecto/services/auth_service.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -104,6 +105,14 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             child: Text("Iniciar sesion")),
                       ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 10),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            await AuthService().iniciarSesionGoogle();
+                          },
+                          child: Text("Iniciar sesión con cuenta google")),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 30),

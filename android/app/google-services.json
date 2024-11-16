@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "521730492532",
-    "project_id": "proyectodam-cf4c5",
-    "storage_bucket": "proyectodam-cf4c5.firebasestorage.app"
+    "project_number": "425022585222",
+    "project_id": "proyecto-dam-41e78",
+    "storage_bucket": "proyecto-dam-41e78.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:521730492532:android:dc3797dc3ad86173fa6921",
+        "mobilesdk_app_id": "1:425022585222:android:7d9978bf7b2221f7371407",
         "android_client_info": {
-          "package_name": "com.proyectodamflutter.flutterproyecto"
+          "package_name": "com.proyecto_recetas.proyecto_dam"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "425022585222-thog9dosssb5sro14l88l4bmek1ohvik.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.proyecto_recetas.proyecto_dam",
+            "certificate_hash": "c28036dec3282d905902bd9066be5112223cffb2"
+          }
+        },
+        {
+          "client_id": "425022585222-rgs55kli8dqqs5llfaiu2n14mheub0cb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyB2bIR2_O_oeKKCKtA1oE4o1ClrNVajCoE"
+          "current_key": "AIzaSyCwyWIZ9My7jjq_dEDIhXfc96XH5dkjA4U"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425022585222-rgs55kli8dqqs5llfaiu2n14mheub0cb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
