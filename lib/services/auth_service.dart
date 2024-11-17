@@ -19,4 +19,8 @@ class AuthService {
     }
     return null;
   }
+
+  Future<User?> usuarioActual() async {
+    return FirebaseAuth.instance.currentUser;
+  }
 }

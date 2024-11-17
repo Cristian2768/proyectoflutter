@@ -43,69 +43,69 @@ class _LoginPageState extends State<LoginPage> {
                         color: Color(ColorSecundario),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 150),
-                      child: TextFormField(
-                        decoration:
-                            InputDecoration(hintText: "Introduzca su Correo"),
-                        controller: correoCtrl,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            hintText: "Introduzca su Contraseña"),
-                        controller: ContraCtrl,
-                        obscureText: true,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 30),
-                      child: Container(
-                        width: double.infinity,
-                        child: FilledButton(
-                            onPressed: () async {
-                              try {
-                                await FirebaseAuth.instance
-                                    .signInWithEmailAndPassword(
-                                  email: correoCtrl.text.trim(),
-                                  password: ContraCtrl.text.trim(),
-                                );
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage()));
-                              } on FirebaseAuthException catch (ex) {
-                                setState(
-                                  () {
-                                    switch (ex.code) {
-                                      case 'channel-error':
-                                        mensaje =
-                                            'Ingrese los datos solicitados';
-                                        break;
-                                      case 'invalid-email':
-                                        mensaje = 'Correo no valido';
-                                        break;
-                                      case 'invalid-credential':
-                                        mensaje = 'Credenciales no validas';
-                                        break;
-                                      case 'user-disabled':
-                                        mensaje =
-                                            'El usuario a sido deshabilitado';
-                                        break;
-                                      default:
-                                        //mensaje =
-                                        //    'Error no especificado, contactese con el administrador';
-                                        print(mensaje);
-                                    }
-                                  },
-                                );
-                              }
-                            },
-                            child: Text("Iniciar sesion")),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 150),
+                    //   child: TextFormField(
+                    //     decoration:
+                    //         InputDecoration(hintText: "Introduzca su Correo"),
+                    //     controller: correoCtrl,
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 30),
+                    //   child: TextFormField(
+                    //     decoration: InputDecoration(
+                    //         hintText: "Introduzca su Contraseña"),
+                    //     controller: ContraCtrl,
+                    //     obscureText: true,
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(top: 30),
+                    //   child: Container(
+                    //     width: double.infinity,
+                    //     child: FilledButton(
+                    //         onPressed: () async {
+                    //           try {
+                    //             await FirebaseAuth.instance
+                    //                 .signInWithEmailAndPassword(
+                    //               email: correoCtrl.text.trim(),
+                    //               password: ContraCtrl.text.trim(),
+                    //             );
+                    //             Navigator.pushReplacement(
+                    //                 context,
+                    //                 MaterialPageRoute(
+                    //                     builder: (context) => HomePage()));
+                    //           } on FirebaseAuthException catch (ex) {
+                    //             setState(
+                    //               () {
+                    //                 switch (ex.code) {
+                    //                   case 'channel-error':
+                    //                     mensaje =
+                    //                         'Ingrese los datos solicitados';
+                    //                     break;
+                    //                   case 'invalid-email':
+                    //                     mensaje = 'Correo no valido';
+                    //                     break;
+                    //                   case 'invalid-credential':
+                    //                     mensaje = 'Credenciales no validas';
+                    //                     break;
+                    //                   case 'user-disabled':
+                    //                     mensaje =
+                    //                         'El usuario a sido deshabilitado';
+                    //                     break;
+                    //                   default:
+                    //                     //mensaje =
+                    //                     //    'Error no especificado, contactese con el administrador';
+                    //                     print(mensaje);
+                    //                 }
+                    //               },
+                    //             );
+                    //           }
+                    //         },
+                    //         child: Text("Iniciar sesion")),
+                    //   ),
+                    // ),
                     Container(
                       padding: EdgeInsets.only(top: 10),
                       child: ElevatedButton(
@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                             var user =
                                 await AuthService().iniciarSesionGoogle();
                             if (user != null) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => HomePage(),
