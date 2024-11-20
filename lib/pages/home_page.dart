@@ -80,7 +80,10 @@ class _HomePageState extends State<HomePage> {
                           motion: ScrollMotion(),
                           children: [
                             SlidableAction(
-                              onPressed: (context) {},
+                              onPressed: (context) {
+                                FirebaseService().borrarReceta(receta.id);
+                                setState(() {});
+                              },
                               icon: MdiIcons.delete,
                               foregroundColor: Colors.white,
                               backgroundColor: Colors.red,
@@ -104,7 +107,25 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: ListTile(
                             //colocar foto aqui
-                            leading: Text('foto'),
+                            leading: FutureBuilder(
+                              future: FirebaseService()
+                                  .buscarFoto(receta['categoria']),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (!snapshot.hasData ||
+                                    snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                  return Text("Cargando");
+                                }
+                                var categoria = snapshot.data!.docs[0];
+                                return Image(
+                                  image: AssetImage(
+                                      'assets/images/' + categoria['foto']),
+                                  width: 100,
+                                  height: 100,
+                                );
+                              },
+                            ),
                             //titulo + autor
                             title: Column(
                               children: [
@@ -135,7 +156,25 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: ListTile(
                         //colocar foto aqui
-                        leading: Text('foto'),
+                        leading: FutureBuilder(
+                          future:
+                              FirebaseService().buscarFoto(receta['categoria']),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData ||
+                                snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                              return Text("Cargando");
+                            }
+                            var categoria = snapshot.data!.docs[0];
+                            return Image(
+                              image: AssetImage(
+                                  'assets/images/' + categoria['foto']),
+                              width: 100,
+                              height: 100,
+                            );
+                          },
+                        ),
                         //titulo + autor
                         title: Column(
                           children: [

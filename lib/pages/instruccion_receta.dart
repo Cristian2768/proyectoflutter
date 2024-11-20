@@ -40,11 +40,34 @@ class _InstruccionRecetaState extends State<InstruccionReceta> {
             ),
             body: Padding(
               padding: const EdgeInsets.all(20),
-              child: Column(
+              child: ListView(
                 children: [
-                  Text(receta['categoria']),
-                  Text('foto'),
-                  Text(receta['instrucciones'])
+                  Text(
+                    receta['categoria'],
+                    style: TextStyle(
+                      fontSize: 50,
+                      color: Color(ColorSecundario),
+                    ),
+                  ),
+                  FutureBuilder(
+                    future: FirebaseService().buscarFoto(receta['categoria']),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData ||
+                          snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator(
+                          color: Colors.blue,
+                        );
+                      }
+                      var categoria = snapshot.data!.docs[0];
+                      return Image(
+                          image:
+                              AssetImage('assets/images/' + categoria['foto']));
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(receta['instrucciones']),
+                  )
                 ],
               ),
             ),
