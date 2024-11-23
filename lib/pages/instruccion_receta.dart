@@ -7,11 +7,13 @@ class InstruccionReceta extends StatefulWidget {
       {super.key,
       required this.correo,
       required this.nombre,
-      required this.instrucciones});
+      required this.instrucciones,
+      required this.id});
 
   final String correo;
   final String nombre;
   final String instrucciones;
+  final String id;
   @override
   State<InstruccionReceta> createState() => _InstruccionRecetaState();
 }
@@ -21,7 +23,7 @@ class _InstruccionRecetaState extends State<InstruccionReceta> {
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: FirebaseService().RecetaInstruccion(
-            widget.correo, widget.nombre, widget.instrucciones),
+            widget.correo, widget.nombre, widget.instrucciones, widget.id),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData ||
               snapshot.connectionState == ConnectionState.waiting) {
@@ -29,7 +31,7 @@ class _InstruccionRecetaState extends State<InstruccionReceta> {
               child: CircularProgressIndicator(),
             );
           }
-          var receta = snapshot.data.docs[0];
+          var receta = snapshot.data;
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Color(ColorPrimario),

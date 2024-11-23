@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutterproyecto/pages/agregar_receta.dart';
 import 'package:flutterproyecto/pages/colores.dart';
 import 'package:flutterproyecto/pages/instruccion_receta.dart';
 import 'package:flutterproyecto/pages/login_page.dart';
+import 'package:flutterproyecto/pages/mostrar_recetas.dart';
 import 'package:flutterproyecto/services/auth_service.dart';
 import 'package:flutterproyecto/services/firebase_service.dart';
 import 'package:flutterproyecto/util/snackbar.dart';
@@ -18,6 +20,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Snackbar().ShowSnackbar(
+          'Presione en una de las recetas para ver las instrucciones, si la receta es suya puede arrastrarla hacia la derecha para ver el botón de borrar, si quieres ver tus recetas da click al boton purpura en el appbar.',
+          context,
+          30);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: AuthService().usuarioActual(),
@@ -30,11 +43,25 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           }
+
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Color(ColorPrimario),
               title: ListTile(
                 title: Text('Bienvenido: ' + snapshot.data!.displayName!),
+                leading: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.purple,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MostrarRecetas()));
+                      },
+                      icon: Icon(MdiIcons.book)),
+                ),
                 trailing: Container(
                   decoration: BoxDecoration(
                       color: Colors.red,
@@ -42,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                   child: IconButton(
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
-                        Snackbar().ShowSnackbar('Sesion cerrada', context);
+                        Snackbar().ShowSnackbar('Sesion cerrada', context, 5);
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
@@ -54,7 +81,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AgregarReceta()));
+              },
               backgroundColor: Color(ColorPrimario),
               foregroundColor: Colors.white,
               child: Icon(MdiIcons.plus),
@@ -97,16 +127,18 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(0))),
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => InstruccionReceta(
-                                        correo: receta['correo'],
-                                        nombre: receta['nombre'],
-                                        instrucciones:
-                                            receta['instrucciones'])));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => InstruccionReceta(
+                                  correo: receta['correo'],
+                                  nombre: receta['nombre'],
+                                  instrucciones: receta['instrucciones'],
+                                  id: receta.id,
+                                ),
+                              ),
+                            );
                           },
                           child: ListTile(
-                            //colocar foto aqui
                             leading: FutureBuilder(
                               future: FirebaseService()
                                   .buscarFoto(receta['categoria']),
@@ -150,12 +182,13 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => InstruccionReceta(
-                                    correo: receta['correo'],
-                                    nombre: receta['nombre'],
-                                    instrucciones: receta['instrucciones'])));
+                                      correo: receta['correo'],
+                                      nombre: receta['nombre'],
+                                      instrucciones: receta['instrucciones'],
+                                      id: receta.id,
+                                    )));
                       },
                       child: ListTile(
-                        //colocar foto aqui
                         leading: FutureBuilder(
                           future:
                               FirebaseService().buscarFoto(receta['categoria']),
