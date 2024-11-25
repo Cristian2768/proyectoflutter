@@ -11,12 +11,13 @@ class AgregarReceta extends StatefulWidget {
 }
 
 class _AgregarRecetaState extends State<AgregarReceta> {
-  String categoriaSeleccionada = "0";
+  String categoriaSeleccionada = "";
   TextEditingController nombre = TextEditingController();
   TextEditingController instrucciones = TextEditingController();
-  TextEditingController correo = TextEditingController();
-  TextEditingController autor = TextEditingController();
+  String autor = "", email = "";
   final formKey = GlobalKey<FormState>();
+  String mensaje = "";
+  bool datosUsuario = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,37 +33,6 @@ class _AgregarRecetaState extends State<AgregarReceta> {
           child: Center(
             child: Column(
               children: [
-                FutureBuilder(
-                  future: AuthService().usuarioActual(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData ||
-                        snapshot.connectionState == ConnectionState.waiting) {
-                      return Text("Cargando correo...");
-                    }
-                    autor.text = snapshot.data!.displayName!;
-                    return TextFormField(
-                      controller: autor,
-                      decoration: InputDecoration(labelText: 'Autor'),
-                      enabled: false,
-                    );
-                  },
-                ),
-                FutureBuilder(
-                  future: AuthService().usuarioActual(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData ||
-                        snapshot.connectionState == ConnectionState.waiting) {
-                      return Text("Cargando correo...");
-                    }
-                    correo.text = snapshot.data!.email!;
-                    return TextFormField(
-                      controller: correo,
-                      decoration:
-                          InputDecoration(labelText: 'Correo del creador'),
-                      enabled: false,
-                    );
-                  },
-                ),
                 TextFormField(
                   controller: nombre,
                   decoration: InputDecoration(labelText: 'Escriba el nombre'),
@@ -87,17 +57,13 @@ class _AgregarRecetaState extends State<AgregarReceta> {
                 StreamBuilder(
                   stream: FirebaseService().categorias(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    List<DropdownMenuItem> categoriaItems = [];
                     if (!snapshot.hasData ||
                         snapshot.connectionState == ConnectionState.waiting) {
-                      return Text('Cargando categorias...');
+                      return Text("Cargando categorias");
                     }
                     ;
-                    var categorias = snapshot.data?.docs.reversed.toList();
-                    categoriaItems.add(DropdownMenuItem(
-                      value: "0",
-                      child: Text("Seleccione la categoria"),
-                    ));
+                    var categorias = snapshot.data.docs.toList();
+                    List<DropdownMenuItem> categoriaItems = [];
                     for (var categoria in categorias!) {
                       categoriaItems.add(
                         DropdownMenuItem(
@@ -106,35 +72,43 @@ class _AgregarRecetaState extends State<AgregarReceta> {
                         ),
                       );
                     }
+                    if (categoriaSeleccionada == "") {
+                      categoriaSeleccionada = categorias[0]['categoria'];
+                    }
                     return DropdownButtonFormField(
-                      validator: (categoriaSeleccionada) {
-                        if (categoriaSeleccionada == "0") {
-                          return 'Debe seleccionar una categoria';
-                        }
-                        ;
-                        return null;
-                      },
-                      value: categoriaSeleccionada,
-                      items: categoriaItems,
+                      decoration: InputDecoration(
+                          labelText: "Seleccione una categoria"),
+                      value: categorias[0]['categoria'],
                       onChanged: (value) {
-                        setState(() {
-                          categoriaSeleccionada = value;
-                        });
-                        //print(categoriaSeleccionada);
+                        categoriaSeleccionada = value!;
                       },
-                      isExpanded: false,
+                      items: categoriaItems,
                     );
+                  },
+                ),
+                FutureBuilder(
+                  future: AuthService().usuarioActual(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData ||
+                        snapshot.connectionState == ConnectionState.waiting) {
+                      return Text("");
+                    }
+                    autor = snapshot.data!.displayName!;
+                    email = snapshot.data!.email!;
+                    datosUsuario = true;
+                    return Text("");
                   },
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate() &&
+                        datosUsuario == true) {
                       FirebaseService().agregarReceta(
                           nombre.text.trim(),
                           instrucciones.text.trim(),
                           categoriaSeleccionada,
-                          autor.text.trim(),
-                          correo.text.trim());
+                          autor,
+                          email);
                       Navigator.pop(context);
                     }
                     ;
@@ -142,7 +116,7 @@ class _AgregarRecetaState extends State<AgregarReceta> {
                   child: Text("Agregar Receta"),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Color(ColorSecundario)),
-                )
+                ),
               ],
             ),
           ),
