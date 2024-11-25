@@ -63,15 +63,7 @@ class _AgregarRecetaState extends State<AgregarReceta> {
                     }
                     ;
                     var categorias = snapshot.data.docs.toList();
-                    List<DropdownMenuItem> categoriaItems = [];
-                    for (var categoria in categorias!) {
-                      categoriaItems.add(
-                        DropdownMenuItem(
-                          value: categoria['categoria'],
-                          child: Text(categoria['categoria']),
-                        ),
-                      );
-                    }
+                    List<DropdownMenuItem> categoriaItems = categorias;
                     if (categoriaSeleccionada == "") {
                       categoriaSeleccionada = categorias[0]['categoria'];
                     }
