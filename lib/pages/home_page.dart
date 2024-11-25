@@ -11,6 +11,7 @@ import 'package:flutterproyecto/services/firebase_service.dart';
 import 'package:flutterproyecto/util/mensaje_util.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+//en caso de algun problema con flutterSDK realizar flutter upgrade --force
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
