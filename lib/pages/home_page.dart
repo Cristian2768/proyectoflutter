@@ -237,8 +237,9 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Confirmar Borrado'),
-            content: Text('Borrar Piloto?'),
+            title: Text('Borrar Receta'),
+            content: Text(
+                '¿Estas seguro de borrar esta receta? Una vez que lo hagas no se podra recuperar.'),
             actions: [
               TextButton(
                 child: Text('CANCELAR'),
