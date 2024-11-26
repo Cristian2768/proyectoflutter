@@ -16,7 +16,6 @@ class _AgregarRecetaState extends State<AgregarReceta> {
   TextEditingController instrucciones = TextEditingController();
   String autor = "", email = "";
   final formKey = GlobalKey<FormState>();
-  String mensaje = "";
   bool datosUsuario = false;
 
   @override

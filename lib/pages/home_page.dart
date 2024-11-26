@@ -96,12 +96,13 @@ class _HomePageState extends State<HomePage> {
                   var receta = snapshotRecetas.data!.docs[index];
                   if (receta['correo'] == snapshot.data!.email!) {
                     return Slidable(
+                      //se considero que solo el usuario podia borrar las recetas propias y no la de otros usuarios
                       endActionPane: ActionPane(
                         motion: ScrollMotion(),
                         children: [
                           SlidableAction(
                             onPressed: (context) {
-                              this._confirmBorrado(context).then((borrar) {
+                              this._confirmarBorrado(context).then((borrar) {
                                 if (borrar) {
                                   setState(() {
                                     FirebaseService().borrarReceta(receta.id);
@@ -231,7 +232,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<dynamic> _confirmBorrado(BuildContext context) {
+  Future<dynamic> _confirmarBorrado(BuildContext context) {
     return showDialog(
         barrierDismissible: false,
         context: context,

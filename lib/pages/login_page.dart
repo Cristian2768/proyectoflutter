@@ -118,9 +118,6 @@ class _LoginPageState extends State<LoginPage> {
                                   builder: (context) => HomePage(),
                                 ),
                               );
-                            } else {
-                              mensaje =
-                                  "Para continuar debe introducir su correo electronico de google";
                             }
                           },
                           child: Text("Iniciar sesión con cuenta google")),
