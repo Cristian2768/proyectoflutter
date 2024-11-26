@@ -120,7 +120,8 @@ class _HomePageState extends State<HomePage> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0))),
+                                borderRadius: BorderRadius.circular(0)),
+                            backgroundColor: Color(ColorSecundario)),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -172,7 +173,8 @@ class _HomePageState extends State<HomePage> {
                   return ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0))),
+                            borderRadius: BorderRadius.circular(0)),
+                        backgroundColor: Color(ColorSecundario)),
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -207,7 +209,10 @@ class _HomePageState extends State<HomePage> {
                       //titulo + autor
                       title: Column(
                         children: [
-                          Text(receta['nombre']),
+                          Text(
+                            receta['nombre'],
+                            textAlign: TextAlign.center,
+                          ),
                           Text(
                             receta['autor'],
                             style: TextStyle(color: Colors.grey),

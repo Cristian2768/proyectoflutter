@@ -57,6 +57,7 @@ class _MostrarRecetasState extends State<MostrarRecetas> {
                     ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(ColorSecundario),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(0))),
                       onPressed: () {
